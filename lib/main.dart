@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:moooviex/bloc/bloc.dart';
 import 'package:moooviex/screens/home/home_screen.dart';
+import 'package:moooviex/services/repository.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MooovieX',
-      home: HomeScreen(),
+      home: BlocProvider(
+          create: (context) => MovieBloc(MovieRepository()),
+          child: HomeScreen()),
       theme: ThemeData(
           fontFamily: GoogleFonts.lato().fontFamily,
           scaffoldBackgroundColor: Colors.white,
