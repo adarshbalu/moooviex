@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moooviex/bloc/bloc.dart';
 import 'package:moooviex/models/movie.dart';
+import 'package:moooviex/screens/movie_details/movie_details.dart';
 import 'package:moooviex/utits/constants.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                 return buildInitial(context);
               else if (state is MovieLoading)
                 return buildLoading();
-              else if (state is MovieLoaded)
+              else if (state is MovieSearched)
                 return buildSearchResult(context, state.moviesFound);
               else
                 return buildInitial(context);
@@ -365,14 +366,14 @@ class HomeScreen extends StatelessWidget {
                 'Movies and Series',
                 style: kHeading,
               ),
-              Spacer()
+              Spacer(),
             ],
           ),
         ),
         Flexible(
           child: ListView.builder(
             itemCount: moviesFound.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (ctx, index) {
               return Card(
                   margin: EdgeInsets.all(10),
                   shape: RoundedRectangleBorder(
@@ -380,6 +381,16 @@ class HomeScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => BlocProvider.value(
+                            value: BlocProvider.of<MovieBloc>(context),
+                            child: MovieDetailsPage(
+                              movieData: moviesFound[index],
+                            ),
+                          ),
+                        ));
+                      },
                       title: Padding(
                         padding: EdgeInsets.only(bottom: 5.0),
                         child: Text(moviesFound[index].title),
@@ -422,6 +433,7 @@ class HomeScreen extends StatelessWidget {
       String type}) {
     // ignore: close_sinks
     final movieBloc = BlocProvider.of<MovieBloc>(context);
-    movieBloc.add(GetMovie(title: title, year: year, page: page, type: type));
+    movieBloc
+        .add(SearchMovies(title: title, year: year, page: page, type: type));
   }
 }

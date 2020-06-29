@@ -16,12 +16,24 @@ class MovieLoading extends MovieState {
   List<Object> get props => [];
 }
 
-class MovieLoaded extends MovieState {
+class MovieSearched extends MovieState {
   final List<Movie> moviesFound;
-  final Movie movie;
-  const MovieLoaded({this.moviesFound, this.movie});
+
+  const MovieSearched({
+    this.moviesFound,
+  });
   @override
-  List<Object> get props => [moviesFound];
+  List<Object> get props => [
+        moviesFound,
+      ];
+}
+
+class MovieLoaded extends MovieState {
+  final Movie movie;
+
+  const MovieLoaded(this.movie);
+  @override
+  List<Object> get props => [movie];
 }
 
 class MovieError extends MovieState {

@@ -17,7 +17,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     MovieEvent event,
   ) async* {
     yield MovieLoading();
-    if (event is GetMovie) {
+    if (event is SearchMovies) {
       try {
         final List<Movie> moviesFound =
             await abstractMovieRepository.searchMovie(
@@ -25,17 +25,23 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
                 page: event.page,
                 year: event.year,
                 type: event.type);
-        yield MovieLoaded(moviesFound: moviesFound);
+        yield MovieSearched(moviesFound: moviesFound);
       } on NetworkError {
         yield MovieError("Couldn't fetch weather. Is the device online?");
       }
     } else if (event is GetMovieDetails) {
       try {
-        final movie = await abstractMovieRepository.getMovieDetails();
-        yield MovieLoaded(movie: movie);
+        final movie = await abstractMovieRepository.getMovieDetails(
+            imdbID: event.imdbID,
+            type: event.type,
+            title: event.title,
+            year: event.year,
+            posterURL: event.posterURL);
+        yield MovieLoaded(movie);
       } on NetworkError {
         yield MovieError("Couldn't fetch weather. Is the device online?");
       }
-    }
+    } else
+      yield MovieError("Couldn't fetch weather. Is the device online?");
   }
 }
