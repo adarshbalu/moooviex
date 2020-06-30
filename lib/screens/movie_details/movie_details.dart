@@ -31,10 +31,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     return Scaffold(
       body: BlocBuilder<MovieBloc, MovieState>(
         builder: (context, state) {
-          if (state is MovieLoading)
-            return buildLoading();
-          else if (state is MovieLoaded)
+          if (state is MovieLoaded)
             return buildResults(context, state.movie);
+          else if (state is MovieLoading)
+            return buildLoading();
           else
             return SizedBox();
         },
