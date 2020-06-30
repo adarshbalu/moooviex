@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moooviex/bloc/bloc.dart';
 import 'package:moooviex/models/movie.dart';
 import 'package:moooviex/screens/movie_details/movie_details.dart';
-import 'package:moooviex/screens/movie_search/movie_search.dart';
 import 'package:moooviex/utits/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String type = 'all';
 
   String year = '';
-
+  List<Movie> cacheMovies = List<Movie>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 return buildInitial(context);
               else if (state is MovieLoading)
                 return buildLoading();
-              else if (state is MovieSearched)
+              else if (state is MovieSearched) {
+                cacheMovies = state.moviesFound;
                 return buildSearchResult(context, state.moviesFound);
-              else
-                return buildInitial(context);
+              } else
+                return buildSearchResult(context, cacheMovies);
             },
           ),
         ),
@@ -310,21 +310,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final movieBloc = BlocProvider.of<MovieBloc>(context);
     movieBloc
         .add(SearchMovies(title: title, year: year, page: page, type: type));
-  }
-
-  moveToSearchScreen(
-      BuildContext context, String title, String year, int page, String type) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => BlocProvider.value(
-        value: BlocProvider.of<MovieBloc>(context),
-        child: MovieSearchPage(
-          title: title,
-          type: type,
-          page: page,
-          year: year,
-        ),
-      ),
-    ));
   }
 
   Widget showResults(BuildContext context, List<Movie> moviesFound) {
