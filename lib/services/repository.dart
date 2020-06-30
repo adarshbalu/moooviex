@@ -1,4 +1,3 @@
-import 'package:moooviex/bloc/bloc.dart';
 import 'package:moooviex/models/movie.dart';
 import 'package:moooviex/services/network.dart';
 import 'package:moooviex/utits/constants.dart';
@@ -56,7 +55,7 @@ class MovieRepository implements AbstractMovieRepository {
           response: data['Response'],
           posterURL: data['Poster']);
     } else
-      throw MovieError('Movie Not found');
+      throw NetworkError();
   }
 
   @override
@@ -98,7 +97,9 @@ class MovieRepository implements AbstractMovieRepository {
 
       return moviesFound;
     } else
-      throw MovieError('Movie Not found');
+      throw NetworkError();
+
+    //return [Movie()];
   }
 }
 

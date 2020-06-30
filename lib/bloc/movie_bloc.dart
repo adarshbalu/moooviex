@@ -27,7 +27,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
                 type: event.type);
         yield MovieSearched(moviesFound: moviesFound);
       } on NetworkError {
-        yield MovieError("Couldn't fetch weather. Is the device online?");
+        yield MovieError("Couldn't fetch Movies. Is the device online?");
       }
     } else if (event is GetMovieDetails) {
       try {
@@ -39,9 +39,9 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
             posterURL: event.posterURL);
         yield MovieLoaded(movie);
       } on NetworkError {
-        yield MovieError("Couldn't fetch weather. Is the device online?");
+        yield MovieError("Couldn't fetch Details. Is the device online?");
       }
     } else
-      yield MovieError("Couldn't fetch weather. Is the device online?");
+      yield MovieError("Couldn't fetch Movie. Is the device online?");
   }
 }

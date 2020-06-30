@@ -39,7 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, state) {
               if (state is MovieInitial)
                 return buildInitial(context);
-              else if (state is MovieLoading)
+              else if (state is MovieError) {
+                return buildError(state.message);
+              } else if (state is MovieLoading)
                 return buildLoading();
               else if (state is MovieSearched) {
                 cacheMovies = state.moviesFound;
@@ -50,6 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildError(String message) {
+    return Center(
+      child: Text(message),
     );
   }
 
@@ -497,12 +505,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(12.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: Icon(Icons.movie),
                     onPressed: () {},
                   ),
                   SizedBox(

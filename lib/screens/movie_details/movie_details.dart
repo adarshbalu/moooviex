@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moooviex/bloc/bloc.dart';
 import 'package:moooviex/models/movie.dart';
-import 'package:moooviex/utits/constants.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final Movie movieData;
@@ -35,6 +35,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             return buildResults(context, state.movie);
           else if (state is MovieLoading)
             return buildLoading();
+          else if (state is MovieError)
+            return buildError(state.message);
           else
             return SizedBox();
         },
@@ -42,96 +44,129 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     );
   }
 
-  buildInitial() {
-    return Container();
+  Widget buildInitial() {
+    return CircularProgressIndicator();
+  }
+
+  Widget buildError(String message) {
+    return Center(
+      child: Text(message),
+    );
   }
 
   buildResults(BuildContext context, Movie movie) {
-    return Column(
+    return ListView(
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(movie.posterURL))),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2.5,
+            image: DecorationImage(
+              colorFilter:
+                  ColorFilter.mode(Colors.grey.shade300, BlendMode.screen),
+              fit: BoxFit.cover,
+              image: NetworkImage(movie.posterURL),
+            ),
           ),
-        ),
-        Flexible(
-          child: ListView(
-            shrinkWrap: true,
+          child: Stack(
             children: <Widget>[
-              Material(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        movie.title,
-                        textAlign: TextAlign.left,
-                        style: kHeading,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        buildRatingStar(double.parse(movie.imdbRating).toInt()),
-                        SizedBox(
-                          width: 8,
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 1.8,
+              ),
+              Positioned.fill(
+                bottom: 40,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 8),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(movie.posterURL),
                         ),
-                        Text('${movie.imdbRating} IMDb')
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(movie.genre),
-                        Text('|'),
-                        Text(movie.runTime),
-                        Text('|'),
-                        Text(movie.year)
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(movie.plot),
-                    ),
-                    Divider(
-                      thickness: 1,
-                      indent: 15,
-                      endIndent: 15,
-                    ),
-                    ListTile(
-                      title: Text(movie.actors),
-                      subtitle: Text('Actors'),
-                    ),
-                    ListTile(
-                      title: Text(movie.director),
-                      subtitle: Text('Director'),
-                    ),
-                    ListTile(
-                      title: Text(movie.writer),
-                      subtitle: Text('Writer'),
-                    ),
-                  ],
+                        borderRadius: BorderRadius.circular(15)),
+                    height: MediaQuery.of(context).size.height / 2.7,
+                    width: MediaQuery.of(context).size.width / 2,
+                  ),
                 ),
               ),
+              Positioned.fill(
+                top: 10,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Text(
+                      movie.title,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 2.0,
+            ),
+            child: Text(
+              movie.imdbRating,
+              style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black87),
+            ),
+          ),
+        ),
+        Center(
+          child: buildRatingStar(
+              int.parse(double.parse(movie.imdbRating).round().toString())),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            DetailWidget(
+              detail: 'Length',
+              value: movie.runTime,
+            ),
+            DetailWidget(
+              detail: 'Language',
+              value: movie.language,
+            ),
+            DetailWidget(
+              detail: 'Year',
+              value: movie.year,
+            ),
+            DetailWidget(
+              detail: 'Country',
+              value: movie.country,
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          child: Text(
+            'Storyline',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          child: Text(movie.plot),
+        )
       ],
     );
   }
 
   Widget buildRatingStar(int value) {
     List<Widget> stars = [];
-    Color color = Colors.yellow;
+    Color color = Colors.yellow.shade700;
     if (value == 10) {
       for (int i = 0; i < 5; i++)
         stars.add(Icon(
@@ -295,6 +330,32 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   Widget buildLoading() {
     return Center(
       child: CircularProgressIndicator(),
+    );
+  }
+}
+
+class DetailWidget extends StatelessWidget {
+  final String detail, value;
+  const DetailWidget({
+    Key key,
+    this.detail,
+    this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(
+          detail,
+          style: TextStyle(color: Colors.grey, fontSize: 17),
+        ),
+        Text(
+          value,
+          style: TextStyle(color: Colors.black, fontSize: 17),
+        )
+      ],
     );
   }
 }
