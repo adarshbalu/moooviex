@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController controller = TextEditingController();
+  int selectedPage = 1;
 
   final _fullSearchKey = GlobalKey<FormState>();
 
@@ -321,6 +322,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget showResults(BuildContext context, List<Movie> moviesFound) {
+    int totalResults = int.parse(moviesFound[0].totalResults);
+    int pages = (totalResults / 10).ceil();
     String type = 'all';
     String year = '';
     return Form(
@@ -464,44 +467,41 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 9,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 8),
-              child: RaisedButton.icon(
-                color: Color(0xff4A148C),
-                textColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                onPressed: () {
-                  if (_fullSearchKey.currentState.validate())
-                    startSearch(
-                        context: context,
-                        title: controller.text,
-                        page: 1,
-                        type: type,
-                        year: year);
-                  else
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: Colors.grey.shade200,
-                        content: Text(
-                          'Enter required fields',
-                          style: TextStyle(color: Colors.black),
-                        ),
+                  Container(
+                    child: RaisedButton.icon(
+                      color: Color(0xff4A148C),
+                      textColor: Colors.white,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      onPressed: () {
+                        if (_fullSearchKey.currentState.validate())
+                          startSearch(
+                              context: context,
+                              title: controller.text,
+                              page: 1,
+                              type: type,
+                              year: year);
+                        else
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.grey.shade200,
+                              content: Text(
+                                'Enter required fields',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          );
+                      },
+                      icon: Icon(Icons.search),
+                      label: Text(
+                        'Search',
+                        style: TextStyle(fontSize: 18),
                       ),
-                    );
-                },
-                icon: Icon(Icons.search),
-                label: Text(
-                  'Search',
-                  style: TextStyle(fontSize: 18),
-                ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -510,7 +510,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.movie),
+                    icon: Icon(
+                      Icons.movie,
+                      color: Color(0xff4A148C),
+                    ),
                     onPressed: () {},
                   ),
                   SizedBox(
@@ -573,6 +576,54 @@ class _HomeScreenState extends State<HomeScreen> {
                       ));
                 },
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                selectedPage > 1
+                    ? Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: RaisedButton.icon(
+                            onPressed: () {
+                              selectedPage--;
+                              startSearch(
+                                  context: context,
+                                  title: controller.text,
+                                  page: selectedPage,
+                                  type: type,
+                                  year: year);
+                            },
+                            icon: Icon(Icons.navigate_before),
+                            color: Color(0xff4A148C),
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            label: Text('Previous Page')),
+                      )
+                    : SizedBox(),
+                selectedPage < pages
+                    ? Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: RaisedButton.icon(
+                            onPressed: () {
+                              selectedPage++;
+                              startSearch(
+                                  context: context,
+                                  title: controller.text,
+                                  page: selectedPage,
+                                  type: type,
+                                  year: year);
+                            },
+                            icon: Icon(Icons.navigate_next),
+                            color: Color(0xff4A148C),
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            label: Text('Next Page')),
+                      )
+                    : SizedBox()
+              ],
             ),
           ],
         ),

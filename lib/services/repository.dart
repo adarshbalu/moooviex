@@ -54,7 +54,9 @@ class MovieRepository implements AbstractMovieRepository {
           production: data['Production'] ?? 'N/A',
           website: data['Website'] ?? 'N/A',
           response: data['Response'],
-          posterURL: data['Poster'] ?? '');
+          posterURL: data['Poster'] == 'N/A'
+              ? 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+              : data['Poster']);
     } else
       throw NetworkError();
   }
@@ -77,8 +79,7 @@ class MovieRepository implements AbstractMovieRepository {
     if (type.isNotEmpty && type != '') {
       if (type != 'all') finalURL = finalURL + '&type=$type';
     }
-
-//      finalURL = finalURL + '&page=$page';
+    if (page != null) finalURL = finalURL + '&page=$page';
 
     NetworkHelper networkHelper = NetworkHelper(finalURL);
     var data = await networkHelper.getData();
@@ -86,15 +87,19 @@ class MovieRepository implements AbstractMovieRepository {
     int totalResults =
         int.tryParse(data['totalResults']) ?? (resultsFound ? 1 : 0);
     List<Movie> moviesFound = [];
+
     if (resultsFound && totalResults >= 1) {
       List movieList = data['Search'];
       for (var m in movieList) {
         moviesFound.add(Movie(
+            totalResults: data['totalResults'],
             title: m['Title'],
             year: m['Year'],
             imdbID: m['imdbID'],
             type: m['Type'],
-            posterURL: m['Poster']));
+            posterURL: m['Poster'] == 'N/A'
+                ? 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+                : m['Poster']));
       }
 
       return moviesFound;
