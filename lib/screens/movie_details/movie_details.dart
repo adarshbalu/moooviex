@@ -122,8 +122,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
           ),
         ),
         Center(
-          child: buildRatingStar(
-              int.parse(double.parse(movie.imdbRating).round().toString())),
+          child: buildRatingStar(int.tryParse(
+                  double.tryParse(movie.imdbRating).floor().toString())) ??
+              Text('N/A'),
         ),
         SizedBox(
           height: 8,
@@ -137,7 +138,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             ),
             DetailWidget(
               detail: 'Language',
-              value: movie.language,
+              value: movie.language.split(',')[0],
             ),
             DetailWidget(
               detail: 'Year',
@@ -145,7 +146,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             ),
             DetailWidget(
               detail: 'Country',
-              value: movie.country,
+              value: movie.country.split(',')[0],
             ),
           ],
         ),
@@ -157,8 +158,178 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 10),
           child: Text(movie.plot),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          child: Text(
+            'Genre',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 10),
+          child: Text(movie.genre),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
+          child: Text(
+            'Ratings',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('IMDB : '),
+              Text(movie.imdbRating == 'N/A'
+                  ? 'No Information'
+                  : movie.imdbRating),
+              Text(' ( ${movie.imdbVotes} votes )'),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('MetaScore : '),
+              Text(movie.metaScore == 'N/A' ? 'Not rated' : movie.metaScore)
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          child: Text(
+            'Cast',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 10),
+          child: Text(movie.actors),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          child: Text(
+            'Director',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 10),
+          child: Text(movie.director),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          child: Text(
+            'Writer',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 10),
+          child: Text(movie.writer),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15),
+          child: Text(
+            'Detailed Information',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, top: 15, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[Text('Released : '), Text(movie.released)],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[Text('Language : '), Text(movie.language)],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Rated : '),
+              Text(movie.rated == 'N/A' ? 'No Information' : movie.rated)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[Text('Country : '), Text(movie.country)],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Awards : '),
+              Expanded(
+                  child: Text(
+                      movie.awards == 'N/A' ? 'No Information' : movie.awards))
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('DVD : '),
+              Text(movie.dvd == 'N/A' ? 'No Information' : movie.dvd)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Box Office : '),
+              Text(
+                  movie.boxOffice == 'N/A' ? 'No Information' : movie.boxOffice)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Production : '),
+              Text(movie.production == 'N/A'
+                  ? 'No Information'
+                  : movie.production)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Website : '),
+              Text(movie.website == 'N/A' ? 'No Information' : movie.website)
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 8,
         )
       ],
     );
