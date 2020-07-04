@@ -2,10 +2,10 @@
 
 # MooovieX [![Build Status](https://travis-ci.org/wallabag/android-app.svg?branch=master)](https://travis-ci.org/wallabag/android-app)
 A Flutter Application made using Bloc pattern and OMDB API .
-<!--
-<img src="microorganism.png" align="left"
+
+<img src="icon.png" align="left"
 width="200" hspace="10" vspace="10">
--->
+
   
 MooovieX is free and Open Source, Cross Platform Application developed using [Flutter](https://github.com/flutter/flutter).
 
@@ -19,10 +19,21 @@ Online database of information related to films, television programs. Most data 
 - Search for any movie, TV series or episodes- including cast, production crew and personal biographies, plot summaries, trivia, ratings, and fan and critical reviews. 
 ## Screenshots
 
-<img src="1.jpg" align="left"
+<img src="Screenshot_20200704-230921.png" align="left"
 width="200"
     hspace="10" vspace="10">
 
+<img src="Screenshot_20200704-230951.png" align="left"
+width="200"
+    hspace="10" vspace="10">
+    
+<img src="Screenshot_20200704-231037.png" align="left"
+width="200"
+    hspace="10" vspace="10">
+
+<img src="Screenshot_20200704-231118.png" align="left"
+width="200"
+    hspace="10" vspace="10">
 
 
 ## Permissions
