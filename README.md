@@ -3,9 +3,6 @@
 # MooovieX [![Build Status](https://travis-ci.org/wallabag/android-app.svg?branch=master)](https://travis-ci.org/wallabag/android-app)
 A Flutter Application made using Bloc pattern and OMDB API .
 
-<img src="icon.png" align="left"
-width="200" hspace="10" vspace="10">
-
   
 MooovieX is free and Open Source, Cross Platform Application developed using [Flutter](https://github.com/flutter/flutter).
 
@@ -22,19 +19,15 @@ Online database of information related to films, television programs. Most data 
 <img src="0.png" align="left"
 width="200"
     hspace="10" vspace="10">
-
 <img src="1.png" align="left"
 width="200"
     hspace="10" vspace="10">
-    
 <img src="2.png" align="left"
 width="200"
     hspace="10" vspace="10">
-
 <img src="3.png" align="left"
 width="200"
     hspace="10" vspace="10">
-
 
 ## Permissions
 
