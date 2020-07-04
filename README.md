@@ -29,8 +29,7 @@ width="200"
 width="200"
     hspace="10" vspace="10">
 
-
-
+***
 ## Permissions
 
 On Android versions prior to Android 6.0, MooovieX requires the following permissions:
