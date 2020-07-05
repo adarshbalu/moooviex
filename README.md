@@ -18,25 +18,22 @@ Online database of information related to films, television programs. Most data 
 
 ### Home Screen
 
-<img src="00.png" align="left"
-width="200"
-    hspace="10" vspace="10">
+<img src="00.png" align="center"
+width="200">
 
 ### Search
-<img src="0.png" align="left"
-width="200"
-    hspace="10" vspace="10">
+
+<img src="0.png" align="center"
+width="200">
 
 ### Result
+
 <img src="1.png" align="left"
-width="200"
-    hspace="10" vspace="10">
+width="200">
 <img src="2.png" align="left"
-width="200"
-    hspace="10" vspace="10">
-<img src="3.png" align="left"
-width="200"
-    hspace="10" vspace="10">
+width="200">
+<img src="3.png" align="center"
+width="200">
 
 ## Permissions
 
