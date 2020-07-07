@@ -1,6 +1,6 @@
 
 
-# MooovieX [![Build Status](https://travis-ci.org/wallabag/android-app.svg?branch=master)](https://travis-ci.org/wallabag/android-app)
+# MooovieX 
 A Flutter Application made using Bloc pattern and OMDB API .
 
   
@@ -13,7 +13,8 @@ Online database of information related to films, television programs. Most data 
 
 ### The android app lets you:
 
-- Search for any movie, TV series or episodes- including cast, production crew and personal biographies, plot summaries, trivia, ratings, and fan and critical reviews. 
+- Search for any movie, TV series or episodes- including cast, production crew, plot summaries and ratings. 
+
 ## Screenshots
 
 ### Home Screen
@@ -35,6 +36,17 @@ width="200">
 <img src="screens/images/3.png" align="center"
 width="200">
 
+
+## Libraries used
+
+```yaml
+  http: ^0.12.1 
+  flutter_bloc: ^4.0.1  # State management using Bloc 
+  google_fonts: ^1.1.0 
+  equatable: ^1.2.0
+```
+
+
 ## Permissions
 
 On Android versions prior to Android 6.0, MooovieX requires the following permissions:
@@ -45,11 +57,13 @@ It uses the network data to update the app contents regularly and provide the la
 ## Contributing
 
 MooovieX  app is a free and open source project. Any contributions are welcome. Here are a few ways you can help:
- * [Report bugs and make suggestions.](https://github.com/wallabag/android-app/issues)
+ * [Report bugs and make suggestions.](https://github.com/adarshbalu/moooviex/issues)
  
 
 ## Credits  
-Thanks to  Wanicon (https://flaticon.com/authors/wanicon) for the app icon.
+Thanks to  OMDB API (http://www.omdbapi.com/) for the free movie data.
+
+Thanks to  Freepik (http://www.freepik.com) for the app icon.
 
 ## License
 
