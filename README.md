@@ -10,6 +10,10 @@ MooovieX is free and Open Source, Cross Platform Application developed using [Fl
 ## About
 Online database of information related to films, television programs. Most data in the database is provided by volunteer contributors. 
 
+## Download the App
+[<img src="https://image.flaticon.com/icons/svg/443/443049.svg" align="center"
+width="60" hspace="10" vspace="10">](http://www.mediafire.com/file/usaaa4uy5wrox6g/MooovieX.apk/file)
+
 
 ### The android app lets you:
 
